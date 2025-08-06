@@ -3,7 +3,6 @@ import sys, shutil, datetime
 from os.path import join
 from time import sleep
 import os
-import pip_system_certs.wrapt_requests
 from ETtoolbox import ET_toolbox_hindcast_coarse_tile
 
 logger = logging.getLogger(__name__)

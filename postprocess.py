@@ -278,13 +278,15 @@ if __name__ == '__main__':
     # Remove the output directory
     remove_directory(s_output_directory)
 
-    # Find the dates in the folder
-    sl_dates = os.listdir(s_input_directory)
+    # Process if the folder exists
+    if os.path.isdir(s_input_directory):
+        # Find the dates in the folder
+        sl_dates = os.listdir(s_input_directory)
 
-    # Process each of the shapefiles
-    for i_entry_shapefile in range(0, len(sl_target_shapefiles), 1):
-        process_shapefile(s_input_directory, sl_target_shapefiles[i_entry_shapefile], s_output_directory, sl_output_names[i_entry_shapefile], sl_dates,
-                          tl_figure_sizes[i_entry_shapefile])
+        # Process each of the shapefiles
+        for i_entry_shapefile in range(0, len(sl_target_shapefiles), 1):
+            process_shapefile(s_input_directory, sl_target_shapefiles[i_entry_shapefile], s_output_directory, sl_output_names[i_entry_shapefile], sl_dates,
+                              tl_figure_sizes[i_entry_shapefile])
 
     ### Process the hindcast outputs ###
     # Set the input directories
@@ -297,10 +299,13 @@ if __name__ == '__main__':
     # Remove the output directory
     remove_directory(s_output_directory)
 
-    # Find the dates in the folder
-    sl_dates = os.listdir(s_input_directory)
+    # Process if the folder exists
+    if os.path.isdir(s_input_directory):
+        # Find the dates in the folder
+        sl_dates = os.listdir(s_input_directory)
 
-    # Process each of the shapefiles
-    for i_entry_shapefile in range(0, len(sl_target_shapefiles), 1):
-        process_shapefile(s_input_directory, sl_target_shapefiles[i_entry_shapefile], s_output_directory, sl_output_names[i_entry_shapefile], sl_dates,
-                          tl_figure_sizes[i_entry_shapefile])
+        # Process each of the shapefiles
+        if os.path.isdir(s_input_directory):
+            for i_entry_shapefile in range(0, len(sl_target_shapefiles), 1):
+                process_shapefile(s_input_directory, sl_target_shapefiles[i_entry_shapefile], s_output_directory, sl_output_names[i_entry_shapefile], sl_dates,
+                                  tl_figure_sizes[i_entry_shapefile])
