@@ -46,7 +46,7 @@ containers on a host machine.
      variable should be set:
 
      ```bash
-     export TMPDIR=/mnt/scratch-medium/containers
+     export TMPDIR=/data/containers
      ```
    
 4. Configure the network mount location on the host. Start by making the mount location in the host:
@@ -80,8 +80,6 @@ The container deployment follows the standard Podman process. Ensure that the fi
 5. Start and enter the container.
 
    `podman exec -it etcontainer /bin/bash`
-
-@@todo Need to complete the container configuration
 
 ## Data Feed Registrations
 The system requires authentication from various data feeds to both configure the container build and the data sources for the scientific calculations. These values should be

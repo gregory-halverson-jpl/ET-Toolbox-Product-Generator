@@ -1,6 +1,5 @@
 import os, sys, shutil, datetime
 from os.path import join
-import pip_system_certs.wrapt_requests
 from datetime import datetime, timezone, date, timedelta
 from ETtoolbox import ET_toolbox_hindcast_forecast_tile
 
@@ -81,7 +80,7 @@ if __name__ == '__main__':
     ### Get the current datetime ###
     o_datetime_utc = datetime.now(timezone.utc)
 
-    ### Process each tile ###
+    ### Process each tile ###198
     for tile in RIO_GRANDE_TILES:
         ET_toolbox_hindcast_forecast_tile(
             tile=tile,

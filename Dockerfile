@@ -15,7 +15,7 @@ COPY postprocess.py /home/app
 COPY .credentials /root/
 
 RUN mkdir -p /mnt/export/et_rasters
-COPY mrg_shapefile/ /home/app/mrg_shapefile
+COPY shapefiles/ /home/app/shapefiles
 
 # Repermission the run script
 RUN chmod 777 /home/app/run.sh
@@ -58,10 +58,10 @@ RUN sed -i 's/account    required   pam_access.so/#account    required   pam_acc
 RUN sed -i 's/session    required   pam_loginuid.so/#session    required   pam_loginuid.so/g' /etc/pam.d/crond
 
 # Install conda
-RUN wget https://github.com/conda-forge/miniforge/releases/download/24.11.3-0/Miniforge3-Linux-x86_64.sh --no-check-certificate
-RUN chmod 777 Miniforge3-Linux-x86_64.sh
-RUN ./Miniforge3-Linux-x86_64.sh -b
-RUN rm -f Miniforge3-Linux-x86_64.sh
+RUN wget https://github.com/conda-forge/miniforge/releases/download/25.3.0-3/Miniforge3-25.3.0-3-Linux-x86_64.sh --no-check-certificate
+RUN chmod 777 Miniforge3-25.3.0-3-Linux-x86_64.sh
+RUN ./Miniforge3-25.3.0-3-Linux-x86_64.sh -b
+RUN rm -f Miniforge3-25.3.0-3-Linux-x86_64.sh
 
 # Configure pip to prevent SSL issues
 RUN mkdir -p ~/.config/pip
@@ -92,12 +92,17 @@ RUN echo "conda activate ettoolbox" >> ~/.bashrc
 # Python ssl environment
 RUN cp /etc/ssl/certs/ca-bundle.crt /root/miniforge3/envs/ettoolbox/ssl/certs/
 RUN cp /etc/ssl/certs/ca-bundle.trust.crt /root/miniforge3/envs/ettoolbox/ssl/certs/
+RUN cp /etc/ssl/certs/ca-bundle.trust.crt /root/miniforge3/envs/ettoolbox/lib/python3.11/site-packages/certifi/cacert.pem
 
 # Fix SSL issues that with the University of Maryland server within the Python ssl environment
 RUN true | openssl s_client -connect gladweb1.umd.edu:443 2>/dev/null | openssl x509 >> /root/miniforge3/envs/ettoolbox/ssl/cert.pem
 
 # Install app
 RUN cd /home/app/ && pip install .
+
+### Add the cron jobs ###
+# Add the data acquisition cron jobs
+RUN cat <(crontab -l) <(echo "0 0 * * * cd /home/app/ && ./run.sh") | crontab -
 
 # Setup folders and permission. todo: Likely need to do this with all of them
 RUN mkdir -p /home/app/ptjpl_static/GEDI_download
